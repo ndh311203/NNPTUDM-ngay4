@@ -1,0 +1,25 @@
+{
+  "name": "nnptudm_bt_buoi4",
+  "version": "1.0.0",
+
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/honguyenlong/NNPTUDM_Bt_buoi4.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/honguyenlong/NNPTUDM_Bt_buoi4/issues"
+  },
+  "homepage": "https://github.com/honguyenlong/NNPTUDM_Bt_buoi4#readme",
+  "dependencies": {
+    "express": "^5.2.1"
+  }
+}
