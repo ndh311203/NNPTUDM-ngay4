@@ -152,6 +152,13 @@ app.get("/users/:username", async (req, res) => {
 // CREATE user — roleId tùy chọn, mặc định r1; fullName/avatarUrl mặc định nếu thiếu
 app.post("/users", async (req, res) => {
     try {
+        const dupUser = await User.findOne({ username: req.body.username });
+        if (dupUser) {
+            return res.status(409).json({
+                message: "Username đã tồn tại, đổi username hoặc dùng PUT để sửa / DELETE để xóa trước."
+            });
+        }
+
         const roleId = req.body.roleId || "r1";
         const role = await Role.findOne({ id: roleId });
         if (!role) return res.status(400).json({ message: "Role not found" });
@@ -161,7 +168,7 @@ app.post("/users", async (req, res) => {
             username: req.body.username,
             password: req.body.password,
             email: req.body.email,
-            fullName: req.body.fullName ?? "Nguyen Long",
+            fullName: req.body.fullName ?? "nguyenduchuy",
             avatarUrl: req.body.avatarUrl ?? defaultAvatar,
             status: req.body.status !== undefined ? Boolean(req.body.status) : true,
             loginCount: req.body.loginCount !== undefined ? Number(req.body.loginCount) : 0,
@@ -177,6 +184,12 @@ app.post("/users", async (req, res) => {
         const savedUser = await newUser.save();
         res.status(201).json(savedUser);
     } catch (error) {
+        if (error.code === 11000) {
+            return res.status(409).json({
+                message: "Trùng dữ liệu unique (thường là username).",
+                error: error.message
+            });
+        }
         res.status(500).json({ message: "Error creating user", error: error.message });
     }
 });
